@@ -50,6 +50,12 @@ jobs:
           cp -r figure ../release/
           cp LICENSE ../release/
           cp readme.md ../release/
+
+      # Factory output replaces sr_top500_whitelist_ad.conf. Reapply the saved
+      # BWG routing after that copy and before any release commit. The script
+      # is idempotent and lives on the release branch, which this job checks out.
+      - name: Reapply BWG routing overlay
+        run: python3 release/tools/apply_bwg_overlay.py release/sr_top500_whitelist_ad.conf
       
       - name: Update lazy rules
         run: |
